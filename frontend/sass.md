@@ -13,11 +13,11 @@ div {
 ```
 * 若变量需要镶嵌在字符串中，需要写在`#{}`中
 
-    ```
-    $side: left;
-    .rounded {
-        border-#{$side}-radius: 5px;
-    ```
+```
+$side: left;
+.rounded {
+    border-#{$side}-radius: 5px;
+```
 
 * 计算功能
 ```
