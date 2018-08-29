@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    html,body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+</body>
+<script type="text/javascript">
+var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+// 初使化map
+function initMap() {
+  var center = {lat: -34.397, lng: 150.644};
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    zoom: 8,//缩放
+  });
+
+  //根据地址获取经纬度
+  var geocoder  = new google.maps.Geocoder();
+  geocoder.geocode({
+    address: '1600 Amphitheatre Parkway, Mountain View, CA'
+  }, function(results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+
+      //设置地图中心 results[0].geometry.location.lat() results[0].geometry.location.lng()
+      map.setCenter(results[0].geometry.location);
+
+      // 显示标记
+      var marker = new google.maps.Marker({
+        map: map,
+        position: results[0].geometry.location,
+        title : 'Title',
+        //动画
+        animation : google.maps.Animation.DROP,
+        //标记图片
+        // icon: {
+        //   url: './images/location.png',
+        //   size: new google.maps.Size(128, 128);
+        // }
+      });
+      marker.setMap(map);
+
+
+      //弹出框
+      var infowindow = new google.maps.InfoWindow({
+        content: 'content',
+        pixelOffset : 0,
+        position : results[0].geometry.location,
+        //最大宽度,为了适应手机
+        maxWidth: windowWidth-53
+      });
+      //默认打开信息窗口,点击做伴弹出信息窗口
+      infowindow.open(map, marker);
+      google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map, marker);
+      });
+    }
+  });
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-XdLaGrkwhF_-Hm77WMeF8KMJZ42HdIE&callback=initMap" type="text/javascript"></script>
+</html>
